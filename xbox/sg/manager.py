@@ -619,7 +619,7 @@ class TextManager(Manager):
         """
         new_version = self.current_text_version + 1
         msg = factory.systemtext_input(
-            session_id=self.session_config.text_session_id,
+            session_id=self.text_session_id,
             base_version=self.current_text_version,
             submitted_version=new_version,
             total_text_len=len(text),
