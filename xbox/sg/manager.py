@@ -434,7 +434,7 @@ class TextManager(Manager):
         self.on_systemtext_input = Event()
         self.on_systemtext_done = Event()
 
-    def _on_message(self, msg, channel):
+    def _on_message(self, msg, channel, forcaMsg = False):
         """
         Internal handler method to receive messages from SystemText Channel
 
