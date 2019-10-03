@@ -628,6 +628,7 @@ class TextManager(Manager):
             text_chunk=text,
             delta=None
         )
+        print("Passo 1")
 
         ack_status = self._send_message(msg)
         if ack_status != AckStatus.Processed:
