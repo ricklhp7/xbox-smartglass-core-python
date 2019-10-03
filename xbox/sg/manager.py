@@ -430,9 +430,9 @@ class TextManager(Manager):
         self.last_session_ack = None
         self._current_text_version = 0
 
-        self.on_systemtext_configuration = set()
-        self.on_systemtext_input = set()
-        self.on_systemtext_done = set()
+        self.on_systemtext_configuration = Event()
+        self.on_systemtext_input = Event()
+        self.on_systemtext_done = Event()
         
     def _on_message(self, msg, channel):
         """
