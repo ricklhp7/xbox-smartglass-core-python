@@ -631,14 +631,14 @@ class TextManager(Manager):
         )
         print("Passo 1")
 
-        ack_status = self._send_message(msg)
-        if ack_status != AckStatus.Processed:
-            raise TextManagerError('InputMsg was not acknowledged: %s' % msg)
+        #ack_status = self._send_message(msg)
+        #if ack_status != AckStatus.Processed:
+        #    raise TextManagerError('InputMsg was not acknowledged: %s' % msg)
 
         # Assign client system input msg
         self.current_session_input = msg.protected_payload
         print("Enviado")
-        return ack_status
+        #return ack_status
 
     def send_systemtext_ack(self, session_id, version):
         """
