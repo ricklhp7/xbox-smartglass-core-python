@@ -443,6 +443,7 @@ class TextManager(Manager):
             channel (:class:`ServiceChannel`): Service channel
         """
         msg_type = msg.header.flags.msg_type
+        print ("Message Type: {0}".format(msg_type))
         payload = msg.protected_payload
         session_id = payload.text_session_id
 
