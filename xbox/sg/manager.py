@@ -414,7 +414,7 @@ class TextManagerError(Exception):
 class TextManager(Manager):
     __namespace__ = 'text'
 
-    def __init__(self, console, forcaMsg = False):
+    def __init__(self, console):
         """
         Text Manager (ServiceChannel.SystemText)
 
@@ -430,21 +430,11 @@ class TextManager(Manager):
         self.last_session_ack = None
         self._current_text_version = 0
 
-        self.on_systemtext_configuration = Event()
-        self.on_systemtext_input = Event()
-        self.on_systemtext_done = Event()
+        self.on_systemtext_configuration = Set()
+        self.on_systemtext_input = Set()
+        self.on_systemtext_done = Set()
         
-        
-        self.reset_session()
-        self.session_config = payload
-        self.on_systemtext_configuration(payload)
-        self.current_session_input = payload
-        self.current_text_version = payload.submitted_version
-        self.send_systemtext_ack(self.text_session_id,
-                                     self.current_text_version)
-        self.on_systemtext_input(payload)
-
-    def _on_message(self, msg, channel, forcaMsg = False):
+    def _on_message(self, msg, channel):
         """
         Internal handler method to receive messages from SystemText Channel
 
@@ -462,7 +452,7 @@ class TextManager(Manager):
             self.session_config = payload
             self.on_systemtext_configuration(payload)
 
-        elif msg_type == MessageType.SystemTextInput or forcaMsg:
+        elif msg_type == MessageType.SystemTextInput:
             # Assign console input msg
             self.current_session_input = payload
             self.current_text_version = payload.submitted_version
