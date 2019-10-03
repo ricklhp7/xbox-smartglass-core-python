@@ -433,6 +433,16 @@ class TextManager(Manager):
         self.on_systemtext_configuration = Event()
         self.on_systemtext_input = Event()
         self.on_systemtext_done = Event()
+        
+        
+        self.reset_session()
+        self.session_config = payload
+        self.on_systemtext_configuration(payload)
+        self.current_session_input = payload
+        self.current_text_version = payload.submitted_version
+        self.send_systemtext_ack(self.text_session_id,
+                                     self.current_text_version)
+        self.on_systemtext_input(payload)
 
     def _on_message(self, msg, channel, forcaMsg = False):
         """
