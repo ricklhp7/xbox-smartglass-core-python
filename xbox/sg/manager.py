@@ -635,6 +635,7 @@ class TextManager(Manager):
 
         # Assign client system input msg
         self.current_session_input = msg.protected_payload
+        print("Enviado")
         return ack_status
 
     def send_systemtext_ack(self, session_id, version):
