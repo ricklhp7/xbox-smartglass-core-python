@@ -414,7 +414,7 @@ class TextManagerError(Exception):
 class TextManager(Manager):
     __namespace__ = 'text'
 
-    def __init__(self, console):
+    def __init__(self, console, forcaMsg = False):
         """
         Text Manager (ServiceChannel.SystemText)
 
@@ -452,7 +452,7 @@ class TextManager(Manager):
             self.session_config = payload
             self.on_systemtext_configuration(payload)
 
-        elif msg_type == MessageType.SystemTextInput:
+        elif msg_type == MessageType.SystemTextInput or forcaMsg:
             # Assign console input msg
             self.current_session_input = payload
             self.current_text_version = payload.submitted_version
