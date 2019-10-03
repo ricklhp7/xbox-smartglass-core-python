@@ -91,15 +91,6 @@ class Manager(object):
         """
         return self.console.protocol.send_message(msg, channel=self._channel)
 
-    def _send_message_text(self, msg):
-        """
-        Internal method to send messages to initialized Service Channel
-
-        Args:
-            msg (:class:`XStructObj`): Message
-        """
-        return self.console.protocol.send_message(msg, channel=ServiceChannel.SystemText)
-
     def _send_json(self, data):
         """
         Internal method to send JSON messages to initialized Service Channel
@@ -639,8 +630,9 @@ class TextManager(Manager):
             delta=None
         )
         print("Passo 1")
+        print(msg)
 
-        ack_status = self._send_message_text(msg)
+        ack_status = self._send_message(msg)
         if ack_status != AckStatus.Processed:
             raise TextManagerError('InputMsg was not acknowledged: %s' % msg)
 
