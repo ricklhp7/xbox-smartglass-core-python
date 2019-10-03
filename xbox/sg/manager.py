@@ -153,6 +153,7 @@ class InputManager(Manager):
             ts, buttons, l_trigger, r_trigger, l_thumb_x, l_thumb_y,
             r_thumb_x, r_thumb_y
         )
+        print(msg)
         return self._send_message(msg)
 
 
@@ -618,9 +619,9 @@ class TextManager(Manager):
         """
         new_version = self.current_text_version + 1
         msg = factory.systemtext_input(
-            session_id=162,
-            base_version=1,
-            submitted_version=2,
+            session_id=self.text_session_id,
+            base_version=self.current_text_version,
+            submitted_version=new_version,
             total_text_len=len(text),
             selection_start=-1,
             selection_length=-1,
