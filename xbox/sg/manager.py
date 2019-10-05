@@ -541,8 +541,11 @@ class TextManager(Manager):
     @property
     def text_session_id(self):
         print ("---------------")
-        print ("text_session_id")
-        print (self.session_config.text_session_id)
+        if self.session_config:
+            print ("text_session_id")
+            print (self.session_config.text_session_id)
+        else:
+            print ("Sem session_config)
         print ("---------------")
         """
         Current Text session id
@@ -555,7 +558,13 @@ class TextManager(Manager):
 
     @property
     def text_options(self):
-        print ("text_options")
+        print ("---------------")
+        if self.session_config:
+            print ("text_options")
+            print (self.session_config.text_options)
+        else:
+            print ("Sem session_config)
+        print ("---------------")
         """
         Current Text options
 
