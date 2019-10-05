@@ -424,7 +424,8 @@ class TextManager(Manager):
                                           by `Console.add_manager`
 
         """
-        super(TextManager, self).__init__(console, ServiceChannel.SystemText)
+        #super(TextManager, self).__init__(console, ServiceChannel.SystemText)
+        super(TextManager, self).__init__(console, ServiceChannel.SystemInput)
 
         self.session_config = None
         self.current_session_input = None
