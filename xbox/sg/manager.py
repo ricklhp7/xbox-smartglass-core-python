@@ -48,7 +48,7 @@ class Manager(object):
     __namespace__ = ''
 
     def __init__(self, console, channel):
-        print ("aaa")
+        print ("__init__ Manager")
         """
         Don't use directly!
         INTERNALLY called by the parent :class:`Console`!
@@ -64,31 +64,35 @@ class Manager(object):
         self._channel = channel
 
     def _pre_on_message(self, msg, channel):
-        print ("bbb")
+        print ("_pre_on_message")
         if channel == self._channel:
             self._on_message(msg, channel)
 
     def _pre_on_json(self, data, channel):
-        print ("ccc")
+        print ("_pre_on_json")
         if channel == self._channel:
             self._on_json(data, channel)
 
     def _on_message(self, msg, channel):
-        print ("ddd")
+        print ("_on_message")
         """
         Managers must implement this
         """
         pass
 
     def _on_json(self, data, channel):
-        print ("eee")
+        print ("_on_json")
         """
         Managers must implement this
         """
         pass
 
     def _send_message(self, msg):
-        print ("fff")
+        print ("---------------")
+        print ("_send_message")
+        print (msg)
+        print (self._channel)
+        print ("---------------")
         """
         Internal method to send messages to initialized Service Channel
 
@@ -98,7 +102,7 @@ class Manager(object):
         return self.console.protocol.send_message(msg, channel=self._channel)
 
     def _send_json(self, data):
-        print ("ggg")
+        print ("_send_json")
         """
         Internal method to send JSON messages to initialized Service Channel
 
@@ -423,7 +427,7 @@ class TextManager(Manager):
     __namespace__ = 'text'
 
     def __init__(self, console):
-        print ("AAAA")
+        print ("__init__ TextManager")
         """
         Text Manager (ServiceChannel.SystemText)
 
@@ -445,7 +449,7 @@ class TextManager(Manager):
         self.on_systemtext_done = Event()
         
     def _on_message(self, msg, channel):
-        print ("BBBB")
+        print ("_on_message Text")
         """
         Internal handler method to receive messages from SystemText Channel
 
@@ -498,7 +502,10 @@ class TextManager(Manager):
 
     @property
     def got_active_session(self):
-        print ("CCCC")
+        print ("---------------")
+        print ("got_active_session")
+        print (self.session_config)
+        print ("---------------")
         """
         Check whether a text session is active
 
@@ -509,7 +516,10 @@ class TextManager(Manager):
 
     @property
     def current_text_version(self):
-        print ("DDDD")
+        print ("---------------")
+        print ("current_text_version")
+        print (self._current_text_version)
+        print ("---------------")
         """
         Current Text version
 
@@ -520,13 +530,20 @@ class TextManager(Manager):
 
     @current_text_version.setter
     def current_text_version(self, value):
-        print ("EEEE")
+        print ("---------------")
+        print ("@current_text_version.setter")
+        print (value)
+        print (self._current_text_version)
+        print ("---------------")
         if value > self.current_text_version:
             self._current_text_version = value
 
     @property
     def text_session_id(self):
-        print ("FFFF")
+        print ("---------------")
+        print ("text_session_id")
+        print (self.session_config.text_session_id)
+        print ("---------------")
         """
         Current Text session id
 
@@ -538,7 +555,7 @@ class TextManager(Manager):
 
     @property
     def text_options(self):
-        print ("GGGG")
+        print ("text_options")
         """
         Current Text options
 
@@ -550,7 +567,7 @@ class TextManager(Manager):
 
     @property
     def text_input_scope(self):
-        print ("HHHH")
+        print ("text_input_scope")
         """
         Current Text input scope
 
@@ -562,7 +579,7 @@ class TextManager(Manager):
 
     @property
     def max_text_length(self):
-        print ("IIII")
+        print ("max_text_length")
         """
         Maximum Text length
 
@@ -574,7 +591,7 @@ class TextManager(Manager):
 
     @property
     def text_locale(self):
-        print ("JJJJ")
+        print ("text_locale")
         """
         Test
 
@@ -586,7 +603,7 @@ class TextManager(Manager):
 
     @property
     def text_prompt(self):
-        print ("KKKK")
+        print ("text_prompt")
         """
         Test
 
@@ -597,7 +614,7 @@ class TextManager(Manager):
             return self.session_config.prompt
 
     def reset_session(self):
-        print ("LLLL")
+        print ("reset_session")
         """
         Delete cached text-session config, -input and -ack messages
 
@@ -610,7 +627,7 @@ class TextManager(Manager):
         self.current_text_version = 0
 
     def finish_text_input(self):
-        print ("MMMM")
+        print ("finish_text_input")
         """
         Finishes current text session.
 
@@ -625,7 +642,7 @@ class TextManager(Manager):
         )
 
     def send_systemtext_input(self, text):
-        print ("NNNN")
+        print ("send_systemtext_input")
         """
         Sends text input
 
@@ -665,7 +682,7 @@ class TextManager(Manager):
         return ack_status
 
     def send_systemtext_ack(self, session_id, version):
-        print ("OOOO")
+        print ("send_systemtext_ack")
         """
         Acknowledges a SystemText message sent from the console
 
@@ -680,7 +697,7 @@ class TextManager(Manager):
         return self._send_message(msg)
 
     def send_systemtext_done(self, session_id, version, flags, result):
-        print ("PPPP")
+        print ("send_systemtext_done")
         """
         Informs the console that a text session is done.
 
