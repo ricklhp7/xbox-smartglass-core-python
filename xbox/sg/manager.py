@@ -652,7 +652,7 @@ class TextManager(Manager):
             result=TextResult.Accept
         )
 
-    def send_systemtext_input(self, text, sss):
+    def send_systemtext_input(self, text, sss, bbb = 2):
         print ("send_systemtext_input")
         """
         Sends text input
@@ -673,8 +673,8 @@ class TextManager(Manager):
             #base_version=self.current_text_version,
             #submitted_version=new_version,
             session_id=sss,
-            base_version=2,
-            submitted_version=3,
+            base_version=bbb,
+            submitted_version=bbb+1,
             total_text_len=len(text),
             selection_start=-1,
             selection_length=-1,
