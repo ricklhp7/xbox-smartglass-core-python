@@ -48,7 +48,6 @@ class Manager(object):
     __namespace__ = ''
 
     def __init__(self, console, channel):
-        print ("__init__ Manager")
         """
         Don't use directly!
         INTERNALLY called by the parent :class:`Console`!
@@ -64,35 +63,26 @@ class Manager(object):
         self._channel = channel
 
     def _pre_on_message(self, msg, channel):
-        print ("_pre_on_message")
         if channel == self._channel:
             self._on_message(msg, channel)
 
     def _pre_on_json(self, data, channel):
-        print ("_pre_on_json")
         if channel == self._channel:
             self._on_json(data, channel)
 
     def _on_message(self, msg, channel):
-        print ("_on_message")
         """
         Managers must implement this
         """
         pass
 
     def _on_json(self, data, channel):
-        print ("_on_json")
         """
         Managers must implement this
         """
         pass
 
     def _send_message(self, msg):
-        print ("---------------")
-        print ("_send_message")
-        print (msg)
-        print (self._channel)
-        print ("---------------")
         """
         Internal method to send messages to initialized Service Channel
 
@@ -102,7 +92,6 @@ class Manager(object):
         return self.console.protocol.send_message(msg, channel=self._channel)
 
     def _send_json(self, data):
-        print ("_send_json")
         """
         Internal method to send JSON messages to initialized Service Channel
 
@@ -164,7 +153,6 @@ class InputManager(Manager):
             ts, buttons, l_trigger, r_trigger, l_thumb_x, l_thumb_y,
             r_thumb_x, r_thumb_y
         )
-        print(msg)
         return self._send_message(msg)
 
 
@@ -427,7 +415,6 @@ class TextManager(Manager):
     __namespace__ = 'text'
 
     def __init__(self, console):
-        print ("__init__ TextManager")
         """
         Text Manager (ServiceChannel.SystemText)
 
@@ -449,7 +436,6 @@ class TextManager(Manager):
         self.on_systemtext_done = Event()
         
     def _on_message(self, msg, channel):
-        print ("_on_message Text")
         """
         Internal handler method to receive messages from SystemText Channel
 
@@ -458,7 +444,6 @@ class TextManager(Manager):
             channel (:class:`ServiceChannel`): Service channel
         """
         msg_type = msg.header.flags.msg_type
-        print ("Message Type: {0}".format(msg_type))
         payload = msg.protected_payload
         session_id = payload.text_session_id
 
@@ -502,10 +487,6 @@ class TextManager(Manager):
 
     @property
     def got_active_session(self):
-        print ("---------------")
-        print ("got_active_session")
-        print (self.session_config)
-        print ("---------------")
         """
         Check whether a text session is active
 
@@ -516,10 +497,6 @@ class TextManager(Manager):
 
     @property
     def current_text_version(self):
-        print ("---------------")
-        print ("current_text_version")
-        print (self._current_text_version)
-        print ("---------------")
         """
         Current Text version
 
@@ -530,23 +507,11 @@ class TextManager(Manager):
 
     @current_text_version.setter
     def current_text_version(self, value):
-        print ("---------------")
-        print ("@current_text_version.setter")
-        print (value)
-        print (self._current_text_version)
-        print ("---------------")
         if value > self.current_text_version:
             self._current_text_version = value
 
     @property
     def text_session_id(self):
-        print ("---------------")
-        if self.session_config:
-            print ("text_session_id")
-            print (self.session_config.text_session_id)
-        else:
-            print ("Sem session_config")
-        print ("---------------")
         """
         Current Text session id
 
@@ -558,13 +523,6 @@ class TextManager(Manager):
 
     @property
     def text_options(self):
-        print ("---------------")
-        if self.session_config:
-            print ("text_options")
-            print (self.session_config.text_options)
-        else:
-            print ("Sem session_config")
-        print ("---------------")
         """
         Current Text options
 
@@ -576,7 +534,6 @@ class TextManager(Manager):
 
     @property
     def text_input_scope(self):
-        print ("text_input_scope")
         """
         Current Text input scope
 
@@ -588,7 +545,6 @@ class TextManager(Manager):
 
     @property
     def max_text_length(self):
-        print ("max_text_length")
         """
         Maximum Text length
 
@@ -600,7 +556,6 @@ class TextManager(Manager):
 
     @property
     def text_locale(self):
-        print ("text_locale")
         """
         Test
 
@@ -612,7 +567,6 @@ class TextManager(Manager):
 
     @property
     def text_prompt(self):
-        print ("text_prompt")
         """
         Test
 
@@ -623,7 +577,6 @@ class TextManager(Manager):
             return self.session_config.prompt
 
     def reset_session(self):
-        print ("reset_session")
         """
         Delete cached text-session config, -input and -ack messages
 
@@ -635,8 +588,7 @@ class TextManager(Manager):
         self.last_session_ack = None
         self.current_text_version = 0
 
-    def finish_text_input(self, sss):
-        print ("finish_text_input")
+    def finish_text_input(self, sss = 1):
         """
         Finishes current text session.
 
@@ -653,7 +605,6 @@ class TextManager(Manager):
         )
 
     def send_systemtext_input(self, text, sss, bbb = 2):
-        print ("send_systemtext_input")
         """
         Sends text input
 
@@ -683,20 +634,15 @@ class TextManager(Manager):
             text_chunk=text,
             delta=None
         )
-        print("Passo 1")
-        print(msg)
-
         ack_status = self._send_message(msg)
         if ack_status != AckStatus.Processed:
             raise TextManagerError('InputMsg was not acknowledged: %s' % msg)
 
         # Assign client system input msg
         self.current_session_input = msg.protected_payload
-        print("Enviado")
         return ack_status
 
     def send_systemtext_ack(self, session_id, version):
-        print ("send_systemtext_ack")
         """
         Acknowledges a SystemText message sent from the console
 
@@ -711,7 +657,6 @@ class TextManager(Manager):
         return self._send_message(msg)
 
     def send_systemtext_done(self, session_id, version, flags, result):
-        print ("send_systemtext_done")
         """
         Informs the console that a text session is done.
 
@@ -728,8 +673,6 @@ class TextManager(Manager):
             int: Member of :class:`AckStatus`
         """
         msg = factory.systemtext_done(session_id, version, flags, result)
-        print("Passo 2")
-        print(msg)
         ack_status = self._send_message(msg)
         if ack_status != AckStatus.Processed:
             raise TextManagerError('DoneMsg was not acknowledged: %s' % msg)
