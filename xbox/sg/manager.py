@@ -726,6 +726,8 @@ class TextManager(Manager):
             int: Member of :class:`AckStatus`
         """
         msg = factory.systemtext_done(session_id, version, flags, result)
+        print("Passo 2")
+        print(msg)
         ack_status = self._send_message(msg)
         if ack_status != AckStatus.Processed:
             raise TextManagerError('DoneMsg was not acknowledged: %s' % msg)
