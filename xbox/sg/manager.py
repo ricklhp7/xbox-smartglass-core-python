@@ -635,7 +635,7 @@ class TextManager(Manager):
         self.last_session_ack = None
         self.current_text_version = 0
 
-    def finish_text_input(self):
+    def finish_text_input(self, sss):
         print ("finish_text_input")
         """
         Finishes current text session.
@@ -644,8 +644,10 @@ class TextManager(Manager):
             None
         """
         self.send_systemtext_done(
-            session_id=self.text_session_id,
-            version=self.current_session_input.submitted_version,
+            #session_id=self.text_session_id,
+            #version=self.current_session_input.submitted_version,
+            session_id=sss,
+            version=3,
             flags=0,
             result=TextResult.Accept
         )
