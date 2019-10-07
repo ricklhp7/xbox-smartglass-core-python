@@ -215,6 +215,7 @@ class CoreProtocol(DatagramServer):
                     "Received %s message on ServiceChannel %s from %s",
                     message_info, channel.name, host, extra={'_msg': msg}
                 )
+                log.debug(msg)
                 seq_num = msg.header.sequence_number
                 self._seq_mgr.add_received(seq_num)
 
