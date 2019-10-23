@@ -446,6 +446,7 @@ class TextManager(Manager):
         msg_type = msg.header.flags.msg_type
         payload = msg.protected_payload
         session_id = payload.text_session_id
+        print (msg_type)
 
         if msg_type == MessageType.SystemTextConfiguration:
             self.reset_session()
@@ -663,7 +664,7 @@ class TextManager(Manager):
             int: Member of :class:`AckStatus`
         """
         msg = factory.systemtext_ack(session_id, version)
-        print (msg)
+        #print (msg)
         return self._send_message(msg)
 
     def send_systemtext_done(self, session_id, version, flags, result):
