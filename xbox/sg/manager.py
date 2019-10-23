@@ -588,23 +588,27 @@ class TextManager(Manager):
         self.last_session_ack = None
         self.current_text_version = 0
 
-    def finish_text_input(self, sss = 1):
+    def finish_text_input(self, text_session_id = None, submited_version = None):
         """
         Finishes current text session.
 
         Returns:
             None
         """
+        if not text_session_id:
+            text_session_id = self.text_session_id
+        if not submited_version:
+            submited_version = self.current_session_input.submitted_version
         self.send_systemtext_done(
             #session_id=self.text_session_id,
             #version=self.current_session_input.submitted_version,
-            session_id=sss,
-            version=3,
+            session_id=text_session_id,
+            version=submited_version,
             flags=0,
             result=TextResult.Accept
         )
 
-    def send_systemtext_input(self, text, sss, bbb = 2):
+    def send_systemtext_input(self, text, text_session_id = None, current_text_version = None):
         """
         Sends text input
 
@@ -618,14 +622,19 @@ class TextManager(Manager):
         Returns:
             int: Member of :class:`AckStatus`
         """
-        new_version = self.current_text_version + 1
+        #new_version = self.current_text_version + 1
+        if not text_session_id:
+            text_session_id = self.text_session_id
+        if not current_text_version:
+            current_text_version = self.current_text_version
+        new_version = current_text_version + 1
         msg = factory.systemtext_input(
             #session_id=self.text_session_id,
             #base_version=self.current_text_version,
             #submitted_version=new_version,
-            session_id=sss,
-            base_version=bbb,
-            submitted_version=bbb+1,
+            session_id=text_session_id,
+            base_version=current_text_version,
+            submitted_version=new_version,
             total_text_len=len(text),
             selection_start=-1,
             selection_length=-1,
