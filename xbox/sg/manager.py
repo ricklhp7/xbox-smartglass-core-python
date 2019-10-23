@@ -654,6 +654,7 @@ class TextManager(Manager):
             int: Member of :class:`AckStatus`
         """
         msg = factory.systemtext_ack(session_id, version)
+        print (msg)
         return self._send_message(msg)
 
     def send_systemtext_done(self, session_id, version, flags, result):
